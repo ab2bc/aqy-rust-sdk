@@ -15,11 +15,11 @@ mod message_graph;
 fn main() {
     let root_dir = PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
     let proto_dir = root_dir
-        .join("../sui-rpc/vendored/proto")
+        .join("../aqy-rpc/vendored/proto")
         .canonicalize()
         .unwrap();
     let out_dir = root_dir
-        .join("../sui-rpc/src/proto/generated")
+        .join("../aqy-rpc/src/proto/generated")
         .canonicalize()
         .unwrap();
 
@@ -59,13 +59,13 @@ fn main() {
         .build_client(true)
         .build_server(true)
         .bytes(["."])
-        .boxed(".sui.rpc.v2beta2.Input.literal")
-        .boxed(".sui.rpc.v2beta2.Epoch.system_state")
-        .boxed(".sui.rpc.v2.Input.literal")
-        .boxed(".sui.rpc.v2.Epoch.system_state")
+        .boxed(".aqy.rpc.v2beta2.Input.literal")
+        .boxed(".aqy.rpc.v2beta2.Epoch.system_state")
+        .boxed(".aqy.rpc.v2.Input.literal")
+        .boxed(".aqy.rpc.v2.Epoch.system_state")
         .boxed("json")
-        .message_attribute(".sui.rpc", "#[non_exhaustive]")
-        .enum_attribute(".sui.rpc", "#[non_exhaustive]")
+        .message_attribute(".aqy.rpc", "#[non_exhaustive]")
+        .enum_attribute(".aqy.rpc", "#[non_exhaustive]")
         .btree_map(["."])
         .out_dir(&out_dir)
         .compile_fds(fds.clone())
@@ -104,7 +104,7 @@ fn main() {
         .out_dir(&out_dir)
         .ignore_unknown_fields()
         .btree_map(["."])
-        .build(&[".google.rpc", ".sui"])
+        .build(&[".google.rpc", ".aqy"])
         .unwrap();
 
     for (package, fds) in packages {

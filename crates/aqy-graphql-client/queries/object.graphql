@@ -1,0 +1,6 @@
+query ObjectQuery($address: AqyAddress!, $version: UInt53) {
+  object(address: $address, version: $version) {
+    bcs
+  }
+}
+

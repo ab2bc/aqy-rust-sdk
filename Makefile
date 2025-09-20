@@ -4,8 +4,8 @@ all:: ci ## Default target, runs the CI process
 
 .PHONY: check-features
 check-features: ## Check feature flags for crates
-	$(MAKE) -C crates/sui-sdk-types check-features
-	$(MAKE) -C crates/sui-crypto check-features
+	$(MAKE) -C crates/aqy-sdk-types check-features
+	$(MAKE) -C crates/aqy-crypto check-features
 
 .PHONY: check-fmt
 check-fmt: ## Check code formatting
@@ -21,20 +21,20 @@ clippy: ## Run Clippy linter
 
 .PHONY: test
 test: ## Run unit tests
-	cargo nextest run --all-features -E '!package(sui-graphql-client) and !package(sui-graphql-client-build) and !package(sui-transaction-builder)'
+	cargo nextest run --all-features -E '!package(aqy-graphql-client) and !package(aqy-graphql-client-build) and !package(aqy-transaction-builder)'
 	cargo test --all-features --doc
 
-package_%.json: crates/sui-transaction-builder/tests/%/Move.toml crates/sui-transaction-builder/tests/%/sources/*.move ## Generate JSON files for tests
-	cd crates/sui-transaction-builder/tests/$(*F) && sui move build --ignore-chain --dump-bytecode-as-base64 > ../../$@
+package_%.json: crates/aqy-transaction-builder/tests/%/Move.toml crates/aqy-transaction-builder/tests/%/sources/*.move ## Generate JSON files for tests
+	cd crates/aqy-transaction-builder/tests/$(*F) && aqy move build --ignore-chain --dump-bytecode-as-base64 > ../../$@
 
 .PHONY: test-with-localnet
 test-with-localnet: package_test_example_v1.json package_test_example_v2.json ## Run tests with localnet
-	cargo nextest run -p sui-graphql-client -p sui-transaction-builder
+	cargo nextest run -p aqy-graphql-client -p aqy-transaction-builder
 
 .PHONY: wasm
 wasm: ## Build WASM modules
-	$(MAKE) -C crates/sui-sdk-types wasm
-	$(MAKE) -C crates/sui-crypto wasm
+	$(MAKE) -C crates/aqy-sdk-types wasm
+	$(MAKE) -C crates/aqy-crypto wasm
 
 .PHONY: doc
 doc: ## Generate documentation
@@ -46,7 +46,7 @@ doc-open: ## Generate and open documentation
 
 .PHONY: proto
 proto: ## run protobuf codegen
-	$(MAKE) -C crates/sui-rpc proto
+	$(MAKE) -C crates/aqy-rpc proto
 
 .PHONY: is-dirty
 is-dirty: ## Checks if repository is dirty
